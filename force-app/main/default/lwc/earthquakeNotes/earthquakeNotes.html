@@ -1,0 +1,39 @@
+<template>
+  <lightning-card title="Add New Note" icon-name="standard:document">
+    <lightning-layout multiple-rows>
+      <lightning-layout-item size="12" class="slds-var-p-around_medium">
+        <lightning-textarea label="Please enter your note">
+        </lightning-textarea>
+        <lightning-button
+          type="submit"
+          variant="brand"
+          label="Submit"
+          onclick={handleSubmit}
+        ></lightning-button>
+        <lightning-button
+          type="reset"
+          label="Clear"
+          onclick={handleClear}
+        ></lightning-button>
+      </lightning-layout-item>
+    </lightning-layout>
+  </lightning-card>
+  <lightning-card
+    title="Previous Notes"
+    icon-name="standard:document"
+    if:true={showPreviousNotes}
+  >
+    <lightning-layout>
+      <lightning-layout-item flexibility="auto" class="slds-m-around_medium">
+        <template for:each={parsedNotes} for:item="note">
+          <div key={note.Id}>
+            <div class="slds-box slds-p-around_medium">
+              <p class="slds-text-body_small">{note.createdDateAndBy}</p>
+              <p class="slds-text-body_regular">{note.note}</p>
+            </div>
+          </div>
+        </template>
+      </lightning-layout-item>
+    </lightning-layout>
+  </lightning-card>
+</template>

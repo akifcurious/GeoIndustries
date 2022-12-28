@@ -1,0 +1,88 @@
+<template>
+  <lightning-card title="Earthquake Details" icon-name="standard:campaign">
+    <span slot="actions" if:true={earthquakeDetails}>
+      <lightning-button
+        label="Send Notification"
+        variant="destructive"
+        onclick={handleSendNotificationButton}
+      ></lightning-button>
+    </span>
+    <lightning-layout multiple-rows>
+      <lightning-layout-item
+        size="12"
+        if:false={earthquakeDetails}
+        class="slds-var-p-around_medium"
+      >
+        <div class="slds-align_absolute-center">
+          <p>No earthquake selected.</p>
+        </div>
+      </lightning-layout-item>
+      <lightning-layout-item
+        size="12"
+        if:true={earthquakeDetails}
+        class="slds-var-p-around_medium"
+      >
+        <div class="slds-text-heading_medium">
+          <p><b>{earthquakeTitle}</b></p>
+          <p>Magnitude: {earthquakeDetails.properties.mag}</p>
+          <br />
+        </div>
+        <div class="slds-text-heading_small">
+          <p>
+            <b>Time: </b>
+            <lightning-formatted-date-time
+              value={earthquakeDetails.properties.time}
+              year="numeric"
+              month="numeric"
+              day="numeric"
+              hour="2-digit"
+              minute="2-digit"
+              time-zone-name="short"
+            ></lightning-formatted-date-time>
+          </p>
+          <p><b>Alert: </b>{earthquakeDetails.properties.alert}</p>
+          <p><b>Tsunami Risk: </b>{earthquakeDetails.properties.tsunami}</p>
+          <p><b>Longitude: </b>{earthquakeLongitude}</p>
+          <p><b>Latitude: </b>{earthquakeLatitude}</p>
+          <p><b>Depth: </b>{earthquakeDepth} km</p>
+          <p>
+            <b>Link: </b
+            ><lightning-formatted-url
+              label="More Details on USGS Site"
+              value={earthquakeDetails.properties.url}
+              tooltip="Omit leading slash"
+              target="_blank"
+            ></lightning-formatted-url>
+          </p>
+        </div>
+      </lightning-layout-item>
+      <lightning-layout-item
+        if:true={earthquakeDetails}
+        class="slds-var-p-around_small"
+      >
+        <div if:false={isRecordAlreadySaved}>
+          <lightning-button
+            label="Save Details"
+            variant="brand"
+            onclick={handleSaveButton}
+          ></lightning-button>
+        </div>
+        <div if:true={isRecordAlreadySaved}>
+          <lightning-badge
+            class="slds-theme_success savedbadge"
+            label="Saved Earthquake Record"
+            onclick={goToRecordPage}
+          ></lightning-badge>
+        </div>
+      </lightning-layout-item>
+    </lightning-layout>
+  </lightning-card>
+
+  <lightning-layout>
+    <lightning-layout-item size="12" if:true={isRecordAlreadySaved}>
+      <c-earthquake-notes
+        inserted-earthquake-record-id={insertedRecordId}
+      ></c-earthquake-notes>
+    </lightning-layout-item>
+  </lightning-layout>
+</template>

@@ -1,0 +1,54 @@
+<template>
+  <lightning-card title="Recent Earthquakes" icon-name="action:map">
+    <span slot="actions">
+      <lightning-button
+        if:false={isFilterOptionsShown}
+        class="slds-button_middle"
+        label="Show Filter Options"
+        onclick={showFilterOptions}
+      ></lightning-button>
+      <lightning-button
+        if:true={isFilterOptionsShown}
+        class="slds-button_middle"
+        label="Hide Filter Options"
+        onclick={showFilterOptions}
+      ></lightning-button>
+      <lightning-button
+        class="slds-button_middle"
+        icon-name="utility:refresh"
+        onclick={handleRefreshMap}
+      ></lightning-button>
+    </span>
+    <lightning-layout class="slds-grid_align-center slds-grid slds-gutters">
+      <lightning-layout-item
+        padding="around-small"
+        if:true={isFilterOptionsShown}
+      >
+        <div class="slds-col">
+          <lightning-combobox
+            name="progress"
+            label="Magnitude:"
+            value={value}
+            placeholder="Select Magnitude"
+            options={magnitudeOptions}
+            onchange={handlMagnitudeChange}
+          ></lightning-combobox>
+        </div>
+        <div class="slds-col">
+          <lightning-input
+            type="date"
+            name="input1"
+            label="Enter a date"
+          ></lightning-input>
+        </div>
+      </lightning-layout-item>
+    </lightning-layout>
+    <lightning-layout class="slds-var-p-around_small">
+      <lightning-layout-item size="12">
+        <c-earthquake-main-map
+          earthquake-main-list={earthquakeMainList}
+        ></c-earthquake-main-map>
+      </lightning-layout-item>
+    </lightning-layout>
+  </lightning-card>
+</template>
